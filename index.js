@@ -40,7 +40,7 @@ exports.handler = (event, context, callback) => {
     console.log('firing...');
     var speechOutput = "test from lambda.";
     var username = "ken";
-    /*
+    
     var database = admin.database();
     var ref = database.ref("posts");
     //var key = ref.push();
@@ -56,24 +56,32 @@ exports.handler = (event, context, callback) => {
         time : dt.toTimeString(),
         starCount: 0
     };  
- 
+    
     async.series ([
         function a (callback) {
-            ref.push().set(postData);
-            callback(null,1);
+            var newRef = ref.push();
+            var keyID = newRef.key;
+            newRef.set(postData);
+            console.log('key = ' + keyID);
+            //callback(null,1);
+            setTimeout(callback, 3000); // This is necessary to wait for commit asynchronusly
         },
         function (callback) {
             console.log("after set");
+            
+        callback(null, 'Hello from Lambda');
         }
     ], function (err, results) {
         if (err) {
             console.log ("error occurred");
         }
         console.log("all done. " + results);
+        
+        callback(null, '2 Hello from Lambda 2');
     }); 
     console.log("finished."); 
-    */
-    var a = pushFBAsync2(speechOutput, username);
+    var a = '1';
+    //var a = pushFBAsync2(speechOutput, username);
     //pushFBAsynchronous(speechOutput, username);
     //pushFBSynchronous(speechOutput, username);
     //pushFBSynch2(speechOutput, username);
@@ -85,7 +93,7 @@ exports.handler = (event, context, callback) => {
     });
     */
     console.log("back to main code :" + a);
-    callback(null, 'Hello from Lambda');
+    //callback(null, 'Hello from Lambda');
 };
 
 function pushFBAsync2(speechOutput, username) {
